@@ -1,0 +1,10 @@
+<div class="main">
+  <div class="inner">
+    <div class="form__wrapper">
+      <h2 class="page-heading">プロトタイプ編集</h2>
+      <%# 部分テンプレートでフォームを表示する %>
+           <%= render partial: "form", locals: { prototype: @prototype } %>
+     <%# フォームの部分テンプレートにおいては、model: prototypeとなっています。したがって、locals: { prototype: @prototype }と記述して、@prototype → prototypeと読み替える記述をします。 %>
+    </div>
+  </div>
+</div>
