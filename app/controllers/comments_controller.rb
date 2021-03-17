@@ -1,11 +1,11 @@
 class CommentsController < ApplicationController
   def create
-   comment = Comment.create(comment_params)
-   if comment.save
-    redirect_to prototype_path(comment.prototype)
+   @comment = Comment.new(comment_params)
+   if @comment.save
+    redirect_to prototype_path(@comment.prototype)
    else
-    # @prototype = @comment.prototype
-    # @comments = @prototype.comments
+    @prototype = @comment.prototype  #@prototypeの中身はタイトル”test”catchcopy ,concept user_idput
+    @comments = @prototype.comments #＠commentsの中には該当プロトタイプにされたコメントが全部入っている
     render "prototypes/show"
   end
 end
