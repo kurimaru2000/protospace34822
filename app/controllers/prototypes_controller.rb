@@ -1,4 +1,6 @@
 class PrototypesController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :delete]
+  before_action :move_to_index, only: [:edit]
 
   def index
     @prototypes = Prototype.all
@@ -52,6 +54,15 @@ class PrototypesController < ApplicationController
   def prototype_params
     params.require(:prototype).permit(:title, :catch_copy, :concept, :image).merge(user_id: current_user.id)
     # binding.pry
+  end
+
+  def move_to_index
+    unless user_signed_in?
+      # ログインしているかどうかを判定するメソッド
+      redirect_to action: :index
+      # 別の画面に変遷させる行
+      # あんれすはいふと逆の動きでfailesを返した時に該当のアクションをする。
+    end
   end
 
 end
