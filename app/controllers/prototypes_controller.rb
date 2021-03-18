@@ -1,6 +1,6 @@
 class PrototypesController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :delete]
-  before_action :move_to_index, only: [:edit]
+  before_action :authenticate_user!, only: [:new, :destroy, :edit]
+  
 
   def index
     @prototypes = Prototype.all
@@ -27,7 +27,11 @@ class PrototypesController < ApplicationController
 
   def edit
     @prototype = Prototype.find(params[:id])
+    unless @prototype.user_id == current_user.id
+      redirect_to action: :index
+    end
   end
+  
 
   def update
     @prototype = Prototype.find(params[:id])
@@ -41,12 +45,11 @@ class PrototypesController < ApplicationController
 
   def destroy
     prototype = Prototype.find(params[:id])
-    # 削除したい特定のidを持つツイートを１つ探してくる
-    prototype.destroy
-    # 上で選択したレコードをアクティブレコードメソッドのデストロイで削除している
-    # 今回のデストロイアクションはビューに情報を受け渡さないのでtweetはインスタンス変数ではなくただの変数として置いている
-    if prototype.destroy
-      redirect_to root_path      
+    unless prototype.user_id == current_user.id
+        redirect_to action: :index
+    else
+        prototype.destroy
+        redirect_to action: :index
     end
   end
 
@@ -55,14 +58,4 @@ class PrototypesController < ApplicationController
     params.require(:prototype).permit(:title, :catch_copy, :concept, :image).merge(user_id: current_user.id)
     # binding.pry
   end
-
-  def move_to_index
-    unless user_signed_in?
-      # ログインしているかどうかを判定するメソッド
-      redirect_to action: :index
-      # 別の画面に変遷させる行
-      # あんれすはいふと逆の動きでfailesを返した時に該当のアクションをする。
-    end
-  end
-
 end

@@ -13,6 +13,7 @@
         </div>
           <% end %>
       <%# // プロトタイプの投稿者とログインしているユーザーが同じであれば上記を表示する %>
+      
       <div class="prototype__image">
         <%= image_tag @prototype.image if @prototype.image.attached? %>
         
@@ -55,7 +56,6 @@
              </p>
               <% end %>
             </li>
-           
            <%# // 投稿に紐づくコメントを一覧する処理を記述する %>
         </ul>
       </div>
